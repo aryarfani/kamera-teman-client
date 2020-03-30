@@ -9,16 +9,14 @@ import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends BaseProvider {
-  ApiService apiService = locator<ApiService>();
-
   AuthProvider() {
     getUserData();
-    print('getUserData is working');
   }
+  ApiService apiService = locator<ApiService>();
 
   String message;
   String namaCurrent;
-  String idCurrent;
+  int idCurrent;
 
   Future login({@required String email, @required String password}) async {
     setState(ViewState.Busy);
@@ -27,7 +25,12 @@ class AuthProvider extends BaseProvider {
     if (result.statusCode == 200) {
       message = '';
       var apiResponse = json.decode(result.body);
-      storeUserData(apiResponse['id'], apiResponse['nama']);
+      print('waiting ');
+      //* wait till user data saved to SharedPreferences
+      if (await storeUserData(apiResponse['id'], apiResponse['nama']) == true) {
+        print('waiting done');
+        return result.statusCode;
+      }
     } else if (result.statusCode == 401) {
       message = 'Email atau password salah';
     } else {
@@ -35,19 +38,21 @@ class AuthProvider extends BaseProvider {
     }
 
     setState(ViewState.Idle);
-
-    return result.statusCode;
   }
 
-  void storeUserData(int id, String nama) async {
+  Future<bool> storeUserData(int id, String nama) async {
     SharedPreferences storage = await SharedPreferences.getInstance();
-    await storage.setInt('idMember', id);
+    namaCurrent = nama;
+    idCurrent = id;
     await storage.setString('namaMember', nama);
+    await storage.setInt('idMember', id);
+    return true;
   }
 
   void getUserData() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
-    namaCurrent = storage.get('id');
-    idCurrent = storage.getString('nama');
+    idCurrent = storage.get('idMember');
+    namaCurrent = storage.getString('namaMember');
+    notifyListeners();
   }
 }

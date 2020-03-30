@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kamera_teman_client/core/models/barang.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/barang_provider.dart';
+import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:provider/provider.dart';
 
@@ -12,81 +13,79 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<BarangProvider>(create: (context) => BarangProvider()),
-        Provider<AuthProvider>(create: (context) => AuthProvider()),
-      ],
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(0, 0),
-          child: Visibility(
-            visible: false,
-            child: AppBar(),
-          ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size(0, 0),
+        child: Visibility(
+          visible: false,
+          child: AppBar(),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding:
-                    EdgeInsets.only(top: mq.height * 0.05, left: mq.width * 0.04, right: mq.width * 0.04, bottom: 25),
-                decoration: BoxDecoration(color: Color(0xFF665CA9)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('Kamera Teman',
-                            style: GoogleFonts.montserrat(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xFFEBEDF4),
-                            )),
-                        Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Badge(
-                            badgeColor: Color(0xFF8078B6),
-                            badgeContent: Text(
-                              '0',
-                              style: GoogleFonts.openSans(color: Colors.white),
-                            ),
-                            child: Icon(
-                              Icons.shopping_cart,
-                              color: Color(0xFFEBEDF4),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding:
+                  EdgeInsets.only(top: mq.height * 0.05, left: mq.width * 0.04, right: mq.width * 0.04, bottom: 25),
+              decoration: BoxDecoration(color: Color(0xFF665CA9)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Consumer2<AuthProvider, KeranjangProvider>(
+                    builder: (context, authmodel, keranjangModel, child) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('Halo ${authmodel.namaCurrent}',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFFEBEDF4),
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8),
+                            child: Badge(
+                              badgeColor: Color(0xFF8078B6),
+                              badgeContent: Text(
+                                keranjangModel.jumlahKeranjang.toString(),
+                                style: GoogleFonts.openSans(color: Colors.white),
+                              ),
+                              child: Icon(
+                                Icons.shopping_cart,
+                                color: Color(0xFFEBEDF4),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Yuk Pinjem Kamera ',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFFEBEDF4),
                     ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Yuk Pinjem Kamera ',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFFEBEDF4),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SearchBox(),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 10),
+                  SearchBox(),
+                ],
               ),
-              Container(
-                color: Color(0xFF665CA9),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-                    height: mq.height,
-                    child: Consumer<BarangProvider>(
-                      builder: (context, model, child) => buildListView(model),
-                    )),
-              ),
-            ],
-          ),
+            ),
+            Container(
+              color: Color(0xFF665CA9),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                  height: mq.height,
+                  child: Consumer<BarangProvider>(
+                    builder: (context, model, child) => buildListView(model),
+                  )),
+            ),
+          ],
         ),
       ),
     );
