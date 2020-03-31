@@ -7,6 +7,7 @@ import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/barang_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
+import 'package:kamera_teman_client/core/utils/router.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -42,17 +43,23 @@ class MainScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFFEBEDF4),
                               )),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8),
-                            child: Badge(
-                              badgeColor: Color(0xFF8078B6),
-                              badgeContent: Text(
-                                keranjangModel.jumlahKeranjang.toString(),
-                                style: GoogleFonts.openSans(color: Colors.white),
-                              ),
-                              child: Icon(
-                                Icons.shopping_cart,
-                                color: Color(0xFFEBEDF4),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, RouteName.keranjang);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 8),
+                              child: Badge(
+                                toAnimate: true,
+                                badgeColor: Color(0xFF8078B6),
+                                badgeContent: Text(
+                                  keranjangModel.jumlahKeranjang.toString(),
+                                  style: GoogleFonts.openSans(color: Colors.white),
+                                ),
+                                child: Icon(
+                                  Icons.shopping_cart,
+                                  color: Color(0xFFEBEDF4),
+                                ),
                               ),
                             ),
                           ),
@@ -115,8 +122,9 @@ class BarangItem extends StatelessWidget {
   final String nama;
   final String harga;
   final int stock;
+  final Function tapCallback;
 
-  const BarangItem({this.image, this.nama, this.harga, this.stock});
+  const BarangItem({this.image, this.nama, this.harga, this.stock, this.tapCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +161,14 @@ class BarangItem extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Padding(
-                      padding: EdgeInsets.only(top: 5),
-                      child: Icon(
-                        Icons.shopping_cart,
-                        color: Color(0xFF493C70),
+                    InkWell(
+                      onTap: tapCallback,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Icon(
+                          Icons.shopping_cart,
+                          color: Color(0xFF493C70),
+                        ),
                       ),
                     ),
                   ],
@@ -169,12 +180,6 @@ class BarangItem extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF776A9E),
                     )),
-                // Text('Stock $stock',
-                //     style: GoogleFonts.montserrat(
-                //       fontSize: 13,
-                //       fontWeight: FontWeight.w400,
-                //       color: Color(0xFF776A9E),
-                //     )),
               ],
             ),
           ),

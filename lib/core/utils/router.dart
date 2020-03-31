@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kamera_teman_client/ui/screens/home_screen.dart';
+import 'package:kamera_teman_client/ui/screens/keranjang_screen.dart';
 import 'package:kamera_teman_client/ui/screens/login_screen.dart';
 import 'package:kamera_teman_client/ui/screens/register_screen.dart';
 
@@ -9,6 +10,7 @@ class RouteName {
   static const String home = 'home';
   static const String login = 'login';
   static const String register = 'register';
+  static const String keranjang = 'keranjang';
 }
 
 class Router {
@@ -20,6 +22,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case RouteName.register:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
+      case RouteName.keranjang:
+        return CupertinoPageRoute(builder: (_) => KeranjangScreen());
       default:
         return CupertinoPageRoute(
           builder: (_) => Scaffold(

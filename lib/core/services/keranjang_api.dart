@@ -16,10 +16,12 @@ class KeranjangApi {
   Future getAllFromKeranjang(int id) async {
     var res = await http.get(linkApi + 'keranjang/$id');
     var jsonObject = await json.decode(res.body);
+    print(res.body);
     List<dynamic> dataJson = jsonObject;
     List<Barang> barangs = [];
 
     for (var data in dataJson) barangs.add(Barang.fromJson(data));
+    print('getAllFromKeranjang done');
     return barangs;
   }
 

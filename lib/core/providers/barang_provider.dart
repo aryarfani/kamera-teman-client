@@ -14,10 +14,11 @@ class BarangProvider extends BaseProvider {
     getBarangs();
   }
 
-  List<Barang> barangs;
+  List<Barang> _barangs;
+  List<Barang> get barangs => _barangs;
 
   void getBarangs() async {
-    barangs = await barangApi.getBarangs();
+    _barangs = await barangApi.getBarangs();
     notifyListeners();
   }
 
@@ -40,7 +41,7 @@ class BarangProvider extends BaseProvider {
 
   void deleteBarang({@required Barang barang}) async {
     int id = barang.id;
-    barangs.remove(barang);
+    _barangs.remove(barang);
 
     try {
       await apiService.delete('barang', id);

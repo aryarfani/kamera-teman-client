@@ -14,27 +14,31 @@ class AuthProvider extends BaseProvider {
   }
   ApiService apiService = locator<ApiService>();
 
-  String message;
-  String namaCurrent;
-  int idCurrent;
+  String _message;
+  String get message => _message;
+  String _namaCurrent;
+  String get namaCurrent => _namaCurrent;
+  int _idCurrent;
+  int get idCurrent => _idCurrent;
 
   Future login({@required String email, @required String password}) async {
     setState(ViewState.Busy);
     Response result = await apiService.login(email, password);
+    print(result.body);
 
     if (result.statusCode == 200) {
-      message = '';
+      _message = '';
       var apiResponse = json.decode(result.body);
-      print('waiting ');
+
       //* wait till user data saved to SharedPreferences
       if (await storeUserData(apiResponse['id'], apiResponse['nama']) == true) {
-        print('waiting done');
+        print('user data saved done');
         return result.statusCode;
       }
     } else if (result.statusCode == 401) {
-      message = 'Email atau password salah';
+      _message = 'Email atau password salah';
     } else {
-      message = 'Login gagal, cek koneksi internet';
+      _message = 'Login gagal, cek koneksi internet';
     }
 
     setState(ViewState.Idle);
@@ -42,8 +46,8 @@ class AuthProvider extends BaseProvider {
 
   Future<bool> storeUserData(int id, String nama) async {
     SharedPreferences storage = await SharedPreferences.getInstance();
-    namaCurrent = nama;
-    idCurrent = id;
+    _namaCurrent = nama;
+    _idCurrent = id;
     await storage.setString('namaMember', nama);
     await storage.setInt('idMember', id);
     return true;
@@ -51,8 +55,8 @@ class AuthProvider extends BaseProvider {
 
   void getUserData() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
-    idCurrent = storage.get('idMember');
-    namaCurrent = storage.getString('namaMember');
+    _idCurrent = storage.get('idMember');
+    _namaCurrent = storage.getString('namaMember');
     notifyListeners();
   }
 }
