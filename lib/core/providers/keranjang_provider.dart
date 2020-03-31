@@ -9,38 +9,67 @@ import 'package:shared_preferences/shared_preferences.dart';
 class KeranjangProvider extends BaseProvider {
   KeranjangApi keranjangApi = locator<KeranjangApi>();
   KeranjangProvider() {
-    getJumlahBarang();
-    getAllFromKeranjang();
+    init();
+  }
+
+  init() async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    int idCurrent = storage.get('idMember');
+
+    getJumlahBarang(idUser: idCurrent);
+    getBarangsFromKeranjang(idUser: idCurrent);
+    getTotalHarga(idUser: idCurrent);
+    print('keranjangProvider created');
   }
 
   List<Barang> barangKeranjang;
   int _jumlahKeranjang = 0;
   int get jumlahKeranjang => _jumlahKeranjang;
+  int _totalHarga = 0;
+  int get totalHarga => _totalHarga;
 
-  Future getJumlahBarang() async {
+  Future getJumlahBarang({@required int idUser}) async {
     print('getJumlahBarang provider');
 
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    var idCurrent = storage.get('idMember');
-    _jumlahKeranjang = await keranjangApi.getJumlahBarangFromKeranjang(idCurrent);
+    _jumlahKeranjang = await keranjangApi.getJumlahBarangFromKeranjang(idUser);
     notifyListeners();
   }
 
-  void getAllFromKeranjang() async {
-    print('getAllFromKeranjang provider');
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    var idCurrent = storage.get('idMember');
-    barangKeranjang = await keranjangApi.getAllFromKeranjang(idCurrent);
+  Future getTotalHarga({@required int idUser}) async {
+    print('getTotalHarga');
+
+    _totalHarga = await keranjangApi.getTotalHarga(idUser);
+    notifyListeners();
+  }
+
+  void getBarangsFromKeranjang({@required int idUser}) async {
+    print('getBarangsFromKeranjang provider');
+
+    barangKeranjang = await keranjangApi.getBarangsFromKeranjang(idUser);
     notifyListeners();
   }
 
   Future addToCart({@required int idUser, @required int idBarang}) async {
+    print('addToCart is working');
+
     var response = await keranjangApi.addToCart(idUser, idBarang);
     if (response) {
-      _jumlahKeranjang++;
-      notifyListeners();
+      // _jumlahKeranjang++;
+      init();
     }
+    print('addToCart is done');
   }
 
-  Future removeFromCart() async {}
+  Future deleteFromCart({@required int idUser, @required int idBarang}) async {
+    print('deleteFromCart is working');
+
+    var response = await keranjangApi.deleteFromCart(idUser, idBarang);
+    if (response) {
+      // _jumlahKeranjang--;
+      // barangKeranjang.remove(barang);
+      // notifyListeners();
+      init();
+    }
+    print('deleteFromCart is done');
+  }
 }

@@ -14,34 +14,38 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(0, 0),
-        child: Visibility(
-          visible: false,
-          child: AppBar(),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding:
-                  EdgeInsets.only(top: mq.height * 0.05, left: mq.width * 0.04, right: mq.width * 0.04, bottom: 25),
-              decoration: BoxDecoration(color: Color(0xFF665CA9)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Consumer2<AuthProvider, KeranjangProvider>(
-                    builder: (context, authmodel, keranjangModel, child) {
-                      return Row(
+    return Consumer3<AuthProvider, KeranjangProvider, BarangProvider>(
+      builder: (context, authmodel, keranjangModel, barangModel, child) {
+        return Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size(0, 0),
+            child: Visibility(
+              visible: false,
+              child: AppBar(),
+            ),
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    top: mq.height * 0.05,
+                    left: mq.width * 0.04,
+                    right: mq.width * 0.04,
+                    bottom: 25,
+                  ),
+                  decoration: BoxDecoration(color: Styles.darkPurple),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text('Halo ${authmodel.namaCurrent}',
                               style: GoogleFonts.montserrat(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w400,
-                                color: Color(0xFFEBEDF4),
+                                color: Styles.coolWhite,
                               )),
                           InkWell(
                             onTap: () {
@@ -58,59 +62,64 @@ class MainScreen extends StatelessWidget {
                                 ),
                                 child: Icon(
                                   Icons.shopping_cart,
-                                  color: Color(0xFFEBEDF4),
+                                  color: Styles.coolWhite,
                                 ),
                               ),
                             ),
                           ),
                         ],
-                      );
-                    },
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'Yuk Pinjem Kamera ',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                          color: Styles.coolWhite,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      SearchBox(),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Yuk Pinjem Kamera ',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFFEBEDF4),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  SearchBox(),
-                ],
-              ),
+                ),
+                Container(
+                  color: Styles.darkPurple,
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                      ),
+                      height: mq.height,
+                      child: buildListView(barangModel, keranjangModel)),
+                ),
+              ],
             ),
-            Container(
-              color: Color(0xFF665CA9),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-                  height: mq.height,
-                  child: Consumer<BarangProvider>(
-                    builder: (context, model, child) => buildListView(model),
-                  )),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  Widget buildListView(BarangProvider model) {
-    return model.barangs == null
+  Widget buildListView(BarangProvider barangModel, KeranjangProvider keranjangModel) {
+    return barangModel.barangs == null
         ? Center(child: CupertinoActivityIndicator())
         : ListView.builder(
             physics: NeverScrollableScrollPhysics(),
-            itemCount: model.barangs.length,
+            itemCount: barangModel.barangs.length,
             itemBuilder: (context, index) {
-              Barang barang = model.barangs[index];
+              Barang barang = barangModel.barangs[index];
               return BarangItem(
                 nama: barang.nama,
                 harga: barang.harga.toString(),
                 image: NetworkImage(linkImage + barang.gambar),
                 stock: barang.stock,
+                tapCallback: () {
+                  keranjangModel.addToCart(idUser: 9, idBarang: barang.id);
+                },
               );
             },
           );

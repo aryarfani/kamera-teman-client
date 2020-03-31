@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/ui/screens/main_screen.dart';
 import 'package:kamera_teman_client/ui/screens/riwayat_screen.dart';
 
@@ -44,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF665CA9),
+        selectedItemColor: Styles.darkPurple,
         onTap: onItemTapped,
       ),
       //* Untuk mencegah screen rebuild ketika diganti

@@ -13,24 +13,23 @@ class KeranjangApi {
     }
   }
 
-  Future getAllFromKeranjang(int id) async {
+  Future getBarangsFromKeranjang(int id) async {
     var res = await http.get(linkApi + 'keranjang/$id');
     var jsonObject = await json.decode(res.body);
-    print(res.body);
     List<dynamic> dataJson = jsonObject;
     List<Barang> barangs = [];
 
     for (var data in dataJson) barangs.add(Barang.fromJson(data));
-    print('getAllFromKeranjang done');
+    print('getBarangsFromKeranjang done');
     return barangs;
   }
 
   Future addToCart(int idUser, int idBarang) async {
-    Map<String, int> body = {
-      'id_barang': idBarang,
+    Map<String, String> body = {
+      'id_barang': idBarang.toString(),
     };
 
-    final response = await http.post(linkApi + 'keranjang/$idUser', body: body);
+    final response = await http.post(linkApi + 'tambahBarangKeranjang/$idUser', body: body);
 
     if (response.statusCode == 200) {
       return true;
@@ -39,17 +38,24 @@ class KeranjangApi {
     }
   }
 
-  Future deleteToCart(int idUser, int idBarang) async {
-    Map<String, int> body = {
-      'idBarang': idBarang,
+  Future deleteFromCart(int idUser, int idBarang) async {
+    Map<String, String> body = {
+      'id_barang': idBarang.toString(),
     };
 
-    final response = await http.post(linkApi + 'keranjang/$idUser', body: body);
+    final response = await http.post(linkApi + 'hapusBarangKeranjang/$idUser', body: body);
 
     if (response.statusCode == 200) {
       return true;
     } else {
       throw Exception('Failed to addToCart');
+    }
+  }
+
+  Future getTotalHarga(int idUser) async {
+    var res = await http.get(linkApi + 'jumlahHargaKeranjang/$idUser');
+    if (res.statusCode == 200) {
+      return json.decode(res.body);
     }
   }
 }

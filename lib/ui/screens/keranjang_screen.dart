@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:kamera_teman_client/core/models/barang.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/ui/widgets/cool_button.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +15,11 @@ class KeranjangScreen extends StatelessWidget {
     final mq = MediaQuery.of(context).size;
     return Consumer<KeranjangProvider>(
       builder: (context, model, child) {
+        var formatCurrency = NumberFormat.simpleCurrency(locale: 'IDR');
+        var uang = formatCurrency.format(model.totalHarga);
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Color(0xFF665CA9),
+            backgroundColor: Styles.darkPurple,
             elevation: 0,
           ),
           body: Column(
@@ -25,7 +27,7 @@ class KeranjangScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: mq.width * 0.055),
-                decoration: BoxDecoration(color: Color(0xFF665CA9)),
+                decoration: BoxDecoration(color: Styles.darkPurple),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -36,7 +38,7 @@ class KeranjangScreen extends StatelessWidget {
                           style: GoogleFonts.montserrat(
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFFEBEDF4),
+                            color: Styles.coolWhite,
                           ),
                         ),
                         Spacer(),
@@ -48,7 +50,7 @@ class KeranjangScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                color: Color(0xFF665CA9),
+                color: Styles.darkPurple,
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -57,14 +59,13 @@ class KeranjangScreen extends StatelessWidget {
                   height: mq.height * 0.7,
                 ),
               ),
-              Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: mq.width * 0.055, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      'Rp 70000',
+                      '$uang,-',
                       style: GoogleFonts.montserrat(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -86,13 +87,10 @@ class KeranjangScreen extends StatelessWidget {
   }
 
   Widget buildListView(context, KeranjangProvider model) {
-    // model.getAllFromKeranjang(id: Provider.of<AuthProvider>(context).idCurrent);
     return model.barangKeranjang == null
         ? Center(child: CupertinoActivityIndicator())
         : ListView.builder(
-            // physics: NeverScrollableScrollPhysics(),
             itemCount: model.barangKeranjang.length,
-            // shrinkWrap: true,
             itemBuilder: (context, index) {
               Barang barang = model.barangKeranjang[index];
               return BarangItem(
@@ -100,6 +98,12 @@ class KeranjangScreen extends StatelessWidget {
                 harga: barang.harga.toString(),
                 image: NetworkImage(linkImage + barang.gambar),
                 stock: barang.stock,
+                tapCallback: () {
+                  model.deleteFromCart(
+                    idBarang: barang.id,
+                    idUser: Provider.of<AuthProvider>(context, listen: false).idCurrent,
+                  );
+                },
               );
             },
           );
@@ -111,13 +115,14 @@ class BarangItem extends StatelessWidget {
   final String nama;
   final String harga;
   final int stock;
+  final Function tapCallback;
 
-  const BarangItem({this.image, this.nama, this.harga, this.stock});
+  const BarangItem({this.image, this.nama, this.harga, this.stock, this.tapCallback});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20),
+      padding: EdgeInsets.only(left: 20, top: 10, right: 17),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -126,8 +131,8 @@ class BarangItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: Image(
-              width: 110,
-              height: 110,
+              width: 100,
+              height: 100,
               fit: BoxFit.cover,
               image: image,
             ),
@@ -153,6 +158,22 @@ class BarangItem extends StatelessWidget {
                       color: Color(0xFF776A9E),
                     )),
               ],
+            ),
+          ),
+          Spacer(),
+          InkWell(
+            onTap: tapCallback,
+            child: Container(
+              padding: EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.red[600],
+              ),
+              child: Icon(
+                Icons.clear,
+                color: Colors.white,
+                size: 25,
+              ),
             ),
           ),
         ],

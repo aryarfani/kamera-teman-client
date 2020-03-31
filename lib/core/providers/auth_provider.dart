@@ -24,8 +24,6 @@ class AuthProvider extends BaseProvider {
   Future login({@required String email, @required String password}) async {
     setState(ViewState.Busy);
     Response result = await apiService.login(email, password);
-    print(result.body);
-
     if (result.statusCode == 200) {
       _message = '';
       var apiResponse = json.decode(result.body);

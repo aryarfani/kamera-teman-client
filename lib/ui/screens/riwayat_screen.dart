@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kamera_teman_client/core/utils/constant.dart';
 
 class RiwayatScreen extends StatefulWidget {
   @override
@@ -45,7 +46,7 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(top: height * 0.06, left: width * 0.04, right: width * 0.04),
-              decoration: BoxDecoration(color: Color(0xFF665CA9)),
+              decoration: BoxDecoration(color: Styles.darkPurple),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -55,7 +56,7 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
                       // color: Color(0xFF403269),
-                      color: Color(0xFFEBEDF4),
+                      color: Styles.coolWhite,
                     ),
                   ),
                   SizedBox(height: 10),

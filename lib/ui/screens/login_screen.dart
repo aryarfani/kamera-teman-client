@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
+import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/ui/widgets/app_header.dart';
-import 'package:kamera_teman_client/ui/widgets/cool_button.dart';
 import 'package:kamera_teman_client/ui/widgets/text_field_widget.dart';
-
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
