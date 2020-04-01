@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/ui/screens/main_screen.dart';
+import 'package:kamera_teman_client/ui/screens/profile_screen.dart';
 import 'package:kamera_teman_client/ui/screens/riwayat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> screenList = [
     MainScreen(),
     RiwayatScreen(),
-    Container(),
+    ProfileScreen(),
   ];
 
   void onItemTapped(int index) {

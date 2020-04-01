@@ -3,11 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:kamera_teman_client/core/models/barang.dart';
 import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/keranjang_api.dart';
+import 'package:kamera_teman_client/core/services/riwayat_api.dart';
+import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KeranjangProvider extends BaseProvider {
   KeranjangApi keranjangApi = locator<KeranjangApi>();
+  RiwayatApi riwayatApi = locator<RiwayatApi>();
+
   KeranjangProvider() {
     init();
   }
@@ -54,22 +58,36 @@ class KeranjangProvider extends BaseProvider {
 
     var response = await keranjangApi.addToCart(idUser, idBarang);
     if (response) {
-      // _jumlahKeranjang++;
+      _jumlahKeranjang++;
+      notifyListeners();
       init();
     }
     print('addToCart is done');
   }
 
-  Future deleteFromCart({@required int idUser, @required int idBarang}) async {
+  Future deleteFromCart({@required int idUser, @required int idBarang, @required Barang barang}) async {
     print('deleteFromCart is working');
 
     var response = await keranjangApi.deleteFromCart(idUser, idBarang);
     if (response) {
-      // _jumlahKeranjang--;
-      // barangKeranjang.remove(barang);
-      // notifyListeners();
+      barangKeranjang.remove(barang);
+      _jumlahKeranjang--;
+      notifyListeners();
       init();
     }
     print('deleteFromCart is done');
+  }
+
+  Future checkOut({@required int id}) async {
+    print('checkOut is working');
+
+    setState(ViewState.Busy);
+    var response = await riwayatApi.checkOutPesanan(id);
+    if (response) {
+      barangKeranjang.clear();
+      init();
+    }
+    setState(ViewState.Idle);
+    print('checkOut is done');
   }
 }

@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CoolButton extends StatelessWidget {
-  final String text;
+  final Widget child;
   final Function onPressed;
 
-  const CoolButton({this.text, this.onPressed});
+  const CoolButton({this.child, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      padding: EdgeInsets.all(13.0),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 13),
       color: Color(0xFF51427E),
-      child: Text(
-        text,
-        style: GoogleFonts.openSans(fontSize: 15, fontWeight: FontWeight.w600),
-      ),
+      child: child,
       textColor: Colors.white,
       onPressed: onPressed,
     );

@@ -6,17 +6,28 @@ import 'package:kamera_teman_client/core/models/barang.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
+import 'package:kamera_teman_client/ui/widgets/barang_item.dart';
 import 'package:kamera_teman_client/ui/widgets/cool_button.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-class KeranjangScreen extends StatelessWidget {
+class KeranjangScreen extends StatefulWidget {
+  @override
+  _KeranjangScreenState createState() => _KeranjangScreenState();
+}
+
+class _KeranjangScreenState extends State<KeranjangScreen> {
+  int durasiPinjam = 1;
+  int jumlahBiaya;
+
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
     return Consumer<KeranjangProvider>(
       builder: (context, model, child) {
         var formatCurrency = NumberFormat.simpleCurrency(locale: 'IDR');
-        var uang = formatCurrency.format(model.totalHarga);
+        jumlahBiaya = model.totalHarga * durasiPinjam;
+        var uang = formatCurrency.format(jumlahBiaya);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Styles.darkPurple,
@@ -56,25 +67,99 @@ class KeranjangScreen extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
                   child: buildListView(context, model),
-                  height: mq.height * 0.7,
+                  height: mq.height * 0.6,
                 ),
               ),
+              Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: mq.width * 0.055, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: <Widget>[
-                    Text(
-                      '$uang,-',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF403269),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Durasi Pinjam',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF403269),
+                          ),
+                        ),
+                        Spacer(),
+                        InkWell(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Styles.darkPurple,
+                            ),
+                            child: Icon(Icons.remove, color: Colors.white),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              durasiPinjam--;
+                            });
+                          },
+                        ),
+                        Text(
+                          durasiPinjam.toString() + ' hari',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF403269),
+                          ),
+                        ),
+                        InkWell(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Styles.darkPurple,
+                            ),
+                            child: Icon(Icons.add, color: Colors.white),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              durasiPinjam++;
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                    CoolButton(
-                      text: 'Pesan',
-                      onPressed: () {},
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '$uang,-',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF403269),
+                          ),
+                        ),
+                        CoolButton(
+                          child: Text(
+                            'Buat Pesanan',
+                            style: GoogleFonts.openSans(fontSize: 15, fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () async {
+                            if (model.barangKeranjang.isEmpty) {
+                              showToast('Keranjang anda kosong');
+                              return;
+                            }
+                            var cek =
+                                await model.checkOut(id: Provider.of<AuthProvider>(context, listen: false).idCurrent);
+
+                            if (cek != null) {
+                              setState(() {
+                                durasiPinjam = 1;
+                              });
+                              showToast('Pemesanan Berhasil');
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -98,86 +183,17 @@ class KeranjangScreen extends StatelessWidget {
                 harga: barang.harga.toString(),
                 image: NetworkImage(linkImage + barang.gambar),
                 stock: barang.stock,
+                endIcon: EndIcon.Clear,
                 tapCallback: () {
                   model.deleteFromCart(
                     idBarang: barang.id,
                     idUser: Provider.of<AuthProvider>(context, listen: false).idCurrent,
+                    barang: barang,
                   );
+                  showToast('Barang dihapus');
                 },
               );
             },
           );
-  }
-}
-
-class BarangItem extends StatelessWidget {
-  final NetworkImage image;
-  final String nama;
-  final String harga;
-  final int stock;
-  final Function tapCallback;
-
-  const BarangItem({this.image, this.nama, this.harga, this.stock, this.tapCallback});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 20, top: 10, right: 17),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Image(
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-              image: image,
-            ),
-          ),
-          SizedBox(width: 10),
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  nama,
-                  style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF403269),
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text('Rp. $harga /day',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF776A9E),
-                    )),
-              ],
-            ),
-          ),
-          Spacer(),
-          InkWell(
-            onTap: tapCallback,
-            child: Container(
-              padding: EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.red[600],
-              ),
-              child: Icon(
-                Icons.clear,
-                color: Colors.white,
-                size: 25,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

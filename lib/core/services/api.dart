@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:kamera_teman_client/core/models/barang.dart';
 import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/services/image.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
@@ -32,5 +35,17 @@ class ApiService {
       'password': password,
     });
     return res;
+  }
+
+  static Future<List<Barang>> jsonToBarangList(http.Response res) async {
+    var jsonObject = await json.decode(res.body);
+    if (jsonObject == []) {
+      return null;
+    }
+    List<dynamic> dataJson = jsonObject;
+    List<Barang> barangs = [];
+
+    for (var data in dataJson) barangs.add(Barang.fromJson(data));
+    return barangs;
   }
 }

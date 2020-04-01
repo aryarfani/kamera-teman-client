@@ -8,6 +8,8 @@ import 'package:kamera_teman_client/core/providers/barang_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
+import 'package:kamera_teman_client/ui/widgets/barang_item.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -54,6 +56,7 @@ class MainScreen extends StatelessWidget {
                             child: Padding(
                               padding: EdgeInsets.only(top: 8),
                               child: Badge(
+                                animationType: BadgeAnimationType.scale,
                                 toAnimate: true,
                                 badgeColor: Color(0xFF8078B6),
                                 badgeContent: Text(
@@ -117,84 +120,14 @@ class MainScreen extends StatelessWidget {
                 harga: barang.harga.toString(),
                 image: NetworkImage(linkImage + barang.gambar),
                 stock: barang.stock,
+                endIcon: EndIcon.Cart,
                 tapCallback: () {
                   keranjangModel.addToCart(idUser: 9, idBarang: barang.id);
+                  showToast('Barang ditambahkan');
                 },
               );
             },
           );
-  }
-}
-
-class BarangItem extends StatelessWidget {
-  final NetworkImage image;
-  final String nama;
-  final String harga;
-  final int stock;
-  final Function tapCallback;
-
-  const BarangItem({this.image, this.nama, this.harga, this.stock, this.tapCallback});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Image(
-              width: 70,
-              height: 70,
-              fit: BoxFit.cover,
-              image: image,
-            ),
-          ),
-          SizedBox(width: 20),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                      nama,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF403269),
-                      ),
-                    ),
-                    Spacer(),
-                    InkWell(
-                      onTap: tapCallback,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Icon(
-                          Icons.shopping_cart,
-                          color: Color(0xFF493C70),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 5),
-                Text('Rp. $harga /day',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF776A9E),
-                    )),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 

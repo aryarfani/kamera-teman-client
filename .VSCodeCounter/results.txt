@@ -1,0 +1,61 @@
+Date : 2020-04-01 12:48:12
+Directory : d:\projects\Flutter\kamera_teman_client\lib
+Total : 29 files,  1811 codes, 23 comments, 197 blanks, all 2031 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         29 |      1,811 |         23 |        197 |      2,031 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                               | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                  |         29 |      1,811 |         23 |        197 |      2,031 |
+| core                                                                               |         17 |        554 |         19 |        128 |        701 |
+| core\models                                                                        |          2 |         38 |          0 |          6 |         44 |
+| core\providers                                                                     |          6 |        236 |          5 |         56 |        297 |
+| core\services                                                                      |          6 |        199 |          6 |         53 |        258 |
+| core\utils                                                                         |          3 |         81 |          8 |         13 |        102 |
+| ui                                                                                 |         10 |      1,193 |          3 |         61 |      1,257 |
+| ui\screens                                                                         |          7 |      1,038 |          3 |         46 |      1,087 |
+| ui\widgets                                                                         |          3 |        155 |          0 |         15 |        170 |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                           | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\projects\Flutter\kamera_teman_client\lib\core\models\barang.dart                | Dart     |         17 |          0 |          3 |         20 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\models\member.dart                | Dart     |         21 |          0 |          3 |         24 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\providers\auth_provider.dart      | Dart     |         51 |          1 |          9 |         61 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\providers\barang_provider.dart    | Dart     |         44 |          0 |         11 |         55 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\providers\base_provider.dart      | Dart     |         13 |          0 |          5 |         18 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\providers\keranjang_provider.dart | Dart     |         71 |          4 |         18 |         93 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\providers\member_provider.dart    | Dart     |         44 |          0 |          9 |         53 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\providers\riwayat_provider.dart   | Dart     |         13 |          0 |          4 |         17 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\services\api.dart                 | Dart     |         38 |          0 |         11 |         49 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\services\barang_api.dart          | Dart     |         36 |          2 |          9 |         47 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\services\image.dart               | Dart     |         20 |          2 |          8 |         30 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\services\keranjang_api.dart       | Dart     |         46 |          0 |         11 |         57 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\services\member_api.dart          | Dart     |         38 |          2 |          9 |         49 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\services\riwayat_api.dart         | Dart     |         21 |          0 |          5 |         26 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\utils\constant.dart               | Dart     |          9 |          0 |          4 |         13 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\utils\router.dart                 | Dart     |         35 |          0 |          3 |         38 |
+| d:\projects\Flutter\kamera_teman_client\lib\core\utils\validate.dart               | Dart     |         37 |          8 |          6 |         51 |
+| d:\projects\Flutter\kamera_teman_client\lib\locator.dart                           | Dart     |         24 |          0 |          4 |         28 |
+| d:\projects\Flutter\kamera_teman_client\lib\main.dart                              | Dart     |         40 |          1 |          4 |         45 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\screens\home_screen.dart            | Dart     |         53 |          1 |          6 |         60 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\screens\keranjang_screen.dart       | Dart     |        193 |          0 |          6 |        199 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\screens\login_screen.dart           | Dart     |        114 |          0 |          3 |        117 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\screens\main_screen.dart            | Dart     |        227 |          0 |          7 |        234 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\screens\profile_screen.dart         | Dart     |         47 |          1 |          2 |         50 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\screens\register_screen.dart        | Dart     |        212 |          0 |         11 |        223 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\screens\riwayat_screen.dart         | Dart     |        192 |          1 |         11 |        204 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\widgets\app_header.dart             | Dart     |         62 |          0 |          4 |         66 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\widgets\cool_button.dart            | Dart     |         17 |          0 |          4 |         21 |
+| d:\projects\Flutter\kamera_teman_client\lib\ui\widgets\text_field_widget.dart      | Dart     |         76 |          0 |          7 |         83 |
+| Total                                                                              |          |      1,811 |         23 |        197 |      2,031 |
++------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

@@ -3,11 +3,13 @@ import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/barang_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
 import 'package:kamera_teman_client/core/providers/member_provider.dart';
+import 'package:kamera_teman_client/core/providers/riwayat_provider.dart';
 import 'package:kamera_teman_client/core/services/api.dart';
 import 'package:kamera_teman_client/core/services/barang_api.dart';
 import 'package:kamera_teman_client/core/services/image.dart';
 import 'package:kamera_teman_client/core/services/keranjang_api.dart';
 import 'package:kamera_teman_client/core/services/member_api.dart';
+import 'package:kamera_teman_client/core/services/riwayat_api.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -16,9 +18,11 @@ void setupLocator() {
   locator.registerFactory(() => MemberProvider());
   locator.registerFactory(() => KeranjangProvider());
   locator.registerFactory(() => AuthProvider());
+  locator.registerFactory(() => RiwayatProvider());
 
   locator.registerLazySingleton(() => ImageService());
   locator.registerLazySingleton(() => MemberApi());
+  locator.registerLazySingleton(() => RiwayatApi());
   locator.registerLazySingleton(() => KeranjangApi());
   locator.registerLazySingleton(() => BarangApi());
   locator.registerLazySingleton(() => ApiService());
