@@ -6,7 +6,6 @@ import 'package:kamera_teman_client/core/services/keranjang_api.dart';
 import 'package:kamera_teman_client/core/services/riwayat_api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/locator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class KeranjangProvider extends BaseProvider {
   KeranjangApi keranjangApi = locator<KeranjangApi>();
@@ -17,9 +16,7 @@ class KeranjangProvider extends BaseProvider {
   }
 
   init() async {
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    int idCurrent = storage.get('idMember');
-
+    int idCurrent = await BaseProvider.getCurrentMemberId();
     getJumlahBarang(idUser: idCurrent);
     getBarangsFromKeranjang(idUser: idCurrent);
     getTotalHarga(idUser: idCurrent);
@@ -78,11 +75,11 @@ class KeranjangProvider extends BaseProvider {
     print('deleteFromCart is done');
   }
 
-  Future checkOut({@required int id}) async {
+  Future checkOut({@required int id, @required int durasi}) async {
     print('checkOut is working');
 
     setState(ViewState.Busy);
-    var response = await riwayatApi.checkOutPesanan(id);
+    var response = await riwayatApi.checkOutPesanan(id, durasi);
     if (response) {
       barangKeranjang.clear();
       init();

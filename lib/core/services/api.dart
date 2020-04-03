@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:kamera_teman_client/core/models/barang.dart';
+import 'package:kamera_teman_client/core/models/barang_riwayat.dart';
 import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/services/image.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
@@ -29,7 +30,7 @@ class ApiService {
   }
 
   Future login(String email, String password) async {
-    var url = Uri.parse(linkApi + 'login');
+    var url = Uri.parse(linkApi + 'loginMember');
     var res = await http.post(url, body: {
       'email': email,
       'password': password,
@@ -46,6 +47,18 @@ class ApiService {
     List<Barang> barangs = [];
 
     for (var data in dataJson) barangs.add(Barang.fromJson(data));
+    return barangs;
+  }
+
+  static Future<List<BarangRiwayat>> jsonToBarangRiwayatList(http.Response res) async {
+    var jsonObject = await json.decode(res.body);
+    if (jsonObject == []) {
+      return null;
+    }
+    List<dynamic> dataJson = jsonObject;
+    List<BarangRiwayat> barangs = [];
+
+    for (var data in dataJson) barangs.add(BarangRiwayat.fromJson(data));
     return barangs;
   }
 }

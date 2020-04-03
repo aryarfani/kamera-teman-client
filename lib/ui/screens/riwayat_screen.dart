@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kamera_teman_client/core/models/barang.dart';
+import 'package:kamera_teman_client/core/models/barang_riwayat.dart';
 import 'package:kamera_teman_client/core/providers/riwayat_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/ui/widgets/barang_item.dart';
@@ -32,6 +32,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     Provider.of<RiwayatProvider>(context, listen: false).getUncofirmedRiwayat();
+    Provider.of<RiwayatProvider>(context, listen: false).getBorrowedMemberRiwayat();
+    Provider.of<RiwayatProvider>(context, listen: false).getDoneAndCancelledMemberRiwayat();
     return Consumer<RiwayatProvider>(
       builder: (context, model, child) {
         return Scaffold(
@@ -57,7 +59,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
                         style: GoogleFonts.montserrat(
                           fontSize: 24,
                           fontWeight: FontWeight.w500,
-                          // color: Color(0xFF403269),
                           color: Styles.coolWhite,
                         ),
                       ),
@@ -78,8 +79,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
                     controller: _tabController,
                     children: [
                       Tab(child: UncofirmedBarang(model)),
-                      Tab(child: Text('Pinjaman')),
-                      Tab(child: Text('Selesai')),
+                      Tab(child: BorrowedBarang(model)),
+                      Tab(child: DoneAndCancelledBarang(model)),
                     ],
                   ),
                 ),
@@ -102,13 +103,56 @@ class UncofirmedBarang extends StatelessWidget {
         : ListView.builder(
             itemCount: model.unconfirmedRiwayat.length,
             itemBuilder: (context, index) {
-              Barang barang = model.unconfirmedRiwayat[index];
+              BarangRiwayat barang = model.unconfirmedRiwayat[index];
               return BarangItem(
                 nama: barang.nama,
-                harga: barang.harga.toString(),
+                harga: '${barang.durasi * barang.harga}',
                 image: NetworkImage(linkImage + barang.gambar),
-                stock: barang.stock,
                 endIcon: EndIcon.Confirming,
+              );
+            },
+          );
+  }
+}
+
+class BorrowedBarang extends StatelessWidget {
+  BorrowedBarang(this.model);
+  final RiwayatProvider model;
+  @override
+  Widget build(BuildContext context) {
+    return model.borrowedRiwayat == null
+        ? Center(child: CupertinoActivityIndicator())
+        : ListView.builder(
+            itemCount: model.borrowedRiwayat.length,
+            itemBuilder: (context, index) {
+              BarangRiwayat barang = model.borrowedRiwayat[index];
+              return BarangItem(
+                nama: barang.nama,
+                subtitle: barang.tanggalTempo,
+                image: NetworkImage(linkImage + barang.gambar),
+                endIcon: EndIcon.Borrowing,
+              );
+            },
+          );
+  }
+}
+
+class DoneAndCancelledBarang extends StatelessWidget {
+  DoneAndCancelledBarang(this.model);
+  final RiwayatProvider model;
+  @override
+  Widget build(BuildContext context) {
+    return model.doneAndCancelledRiwayat == null
+        ? Center(child: CupertinoActivityIndicator())
+        : ListView.builder(
+            itemCount: model.doneAndCancelledRiwayat.length,
+            itemBuilder: (context, index) {
+              BarangRiwayat barang = model.doneAndCancelledRiwayat[index];
+              return BarangItem(
+                nama: barang.nama,
+                subtitle: barang.tanggalTempo,
+                image: NetworkImage(linkImage + barang.gambar),
+                endIcon: EndIcon.Done,
               );
             },
           );

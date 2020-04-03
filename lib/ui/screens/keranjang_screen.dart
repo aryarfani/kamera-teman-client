@@ -148,14 +148,13 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                               showToast('Keranjang anda kosong');
                               return;
                             }
-                            var cek =
-                                await model.checkOut(id: Provider.of<AuthProvider>(context, listen: false).idCurrent);
-
+                            var cek = await model.checkOut(
+                                id: Provider.of<AuthProvider>(context, listen: false).idCurrent, durasi: durasiPinjam);
+                            showToast('Pemesanan Berhasil');
                             if (cek != null) {
                               setState(() {
                                 durasiPinjam = 1;
                               });
-                              showToast('Pemesanan Berhasil');
                             }
                           },
                         ),

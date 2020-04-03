@@ -3,9 +3,9 @@ import 'package:kamera_teman_client/core/services/api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 
 class RiwayatApi {
-  Future checkOutPesanan(int id) async {
+  Future checkOutPesanan(int id, int durasi) async {
     print('checkOutPesanan working');
-    var res = await http.get(linkApi + 'checkOutPesanan/$id');
+    var res = await http.post(linkApi + 'checkOutPesanan/$id', body: {'durasi': durasi.toString()});
     if (res.statusCode == 200) {
       print('checkOutPesanan success');
 
@@ -18,8 +18,26 @@ class RiwayatApi {
   }
 
   Future getRiwayat(int id) async {
-    var res = await http.get(linkApi + 'riwayat/$id');
+    var res = await http.get(linkApi + 'getAllMemberRiwayat/$id');
     print('getRiwayat done');
-    return ApiService.jsonToBarangList(res);
+    return ApiService.jsonToBarangRiwayatList(res);
+  }
+
+  Future getUncofirmedMemberRiwayat(int id) async {
+    var res = await http.get(linkApi + 'getUncofirmedMemberRiwayat/$id');
+    print('getUncofirmedMemberRiwayat done');
+    return ApiService.jsonToBarangRiwayatList(res);
+  }
+
+  Future getBorrowedMemberRiwayat(int id) async {
+    var res = await http.get(linkApi + 'getBorrowedMemberRiwayat/$id');
+    print('getBorrowedMemberRiwayat done');
+    return ApiService.jsonToBarangRiwayatList(res);
+  }
+
+  Future getDoneAndCancelledMemberRiwayat(int id) async {
+    var res = await http.get(linkApi + 'getDoneAndCancelledMemberRiwayat/$id');
+    print('getDoneAndCancelledMemberRiwayat done');
+    return ApiService.jsonToBarangRiwayatList(res);
   }
 }

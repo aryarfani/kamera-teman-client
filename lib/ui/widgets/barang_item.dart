@@ -6,12 +6,14 @@ import 'package:kamera_teman_client/core/utils/constant.dart';
 class BarangItem extends StatelessWidget {
   final NetworkImage image;
   final String nama;
+  final String subtitle;
   final String harga;
   final int stock;
   final EndIcon endIcon;
   final Function tapCallback;
 
-  const BarangItem({this.image, this.nama, this.harga, this.stock, @required this.endIcon, this.tapCallback});
+  const BarangItem(
+      {this.image, this.nama, this.subtitle, this.stock, @required this.endIcon, this.tapCallback, this.harga});
 
   Widget buildIconWidget() {
     switch (endIcon) {
@@ -42,21 +44,21 @@ class BarangItem extends StatelessWidget {
         );
       case EndIcon.Confirming:
         return Chip(
-          backgroundColor: Colors.yellow[700],
+          backgroundColor: Colors.yellow[900],
           padding: EdgeInsets.all(0),
-          label: Text('Menunggu'),
+          label: Text('Menunggu', style: TextStyle(color: Colors.white)),
         );
       case EndIcon.Borrowing:
         return Chip(
-          backgroundColor: Colors.green[700],
+          backgroundColor: Colors.blueAccent,
           padding: EdgeInsets.all(0),
-          label: Text('Dipinjam'),
+          label: Text('Dipinjam', style: TextStyle(color: Colors.white)),
         );
       case EndIcon.Done:
         return Chip(
           backgroundColor: Colors.green[700],
           padding: EdgeInsets.all(0),
-          label: Text('Selesai'),
+          label: Text('Selesai', style: TextStyle(color: Colors.white)),
         );
       default:
         return Container();
@@ -95,7 +97,7 @@ class BarangItem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 5),
-                Text('Rp. $harga /day',
+                Text(harga == null ? 'Tempo $subtitle' : 'Rp $harga,-',
                     style: GoogleFonts.montserrat(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
