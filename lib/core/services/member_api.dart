@@ -19,6 +19,13 @@ class MemberApi extends ApiService {
     return members;
   }
 
+  Future<Member> getMemberById(int id) async {
+    var response = await http.get(linkApi + 'member/$id');
+    var jsonObject = await json.decode(response.body);
+    Member member = Member.fromJson(jsonObject);
+    return member;
+  }
+
   Future uploadMember(File imageFile, String nama, String alamat, String email, String phone, String password) async {
     var compressedImg = await imageService.compressFile(imageFile);
     //* Upload Process

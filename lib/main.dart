@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/barang_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
+import 'package:kamera_teman_client/core/providers/member_provider.dart';
 import 'package:kamera_teman_client/core/providers/riwayat_provider.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
 import 'package:kamera_teman_client/locator.dart';
@@ -43,4 +44,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider<AuthProvider>(create: (context) => locator<AuthProvider>()),
   ChangeNotifierProvider<KeranjangProvider>(create: (context) => locator<KeranjangProvider>()),
   ChangeNotifierProvider<RiwayatProvider>(create: (context) => locator<RiwayatProvider>()),
+  ChangeNotifierProvider<MemberProvider>(create: (context) => MemberProvider()),
 ];

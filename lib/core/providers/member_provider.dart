@@ -1,24 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/models/member.dart';
 import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/member_api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
+import 'package:kamera_teman_client/locator.dart';
 
 class MemberProvider extends BaseProvider {
   MemberApi memberApi = locator<MemberApi>();
 
-  MemberProvider() {
-    getMembers();
-  }
-
   List<Member> members;
+  Member _currentMember;
+  Member get currentMember => _currentMember;
 
-  void getMembers() async {
-    members = await memberApi.getMembers();
-    notifyListeners();
+  Future getMemberById(int idCurrent) async {
+    _currentMember = await memberApi.getMemberById(idCurrent);
   }
 
   Future addMember(
@@ -37,16 +34,5 @@ class MemberProvider extends BaseProvider {
     } catch (e) {
       print(e);
     }
-  }
-
-  void deleteMember({@required Member member}) async {
-    int id = member.id;
-    members.remove(member);
-    try {
-      await apiService.delete('member', id);
-    } catch (e) {
-      print(e);
-    }
-    notifyListeners();
   }
 }

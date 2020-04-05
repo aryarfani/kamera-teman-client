@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
+import 'package:kamera_teman_client/core/providers/member_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:provider/provider.dart';
 
@@ -10,112 +11,115 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Styles.darkPurple,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Akun Saya',
-          style: GoogleFonts.montserrat(fontSize: 18),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: mq.width * 0.055, vertical: mq.height * 0.02),
-              color: Styles.darkPurple,
-              // decoration: BoxDecoration(color: Styles.darkPurple),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(90),
-                    child: Image(
-                      image: AssetImage('images/4.jpg'),
-                      height: 120,
-                      width: 120,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Bambang Pamungkas',
-                    style: GoogleFonts.openSans(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Styles.coolWhite,
-                    ),
-                  ),
-                  Text(
-                    'Mojoroto, Kediri',
-                    style: GoogleFonts.openSans(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Styles.coolWhite,
-                    ),
-                  ),
-                ],
-              ),
+    return Consumer<MemberProvider>(
+      builder: (context, model, child) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Styles.darkPurple,
+            elevation: 0,
+            centerTitle: true,
+            title: Text(
+              'Akun Saya',
+              style: GoogleFonts.montserrat(fontSize: 18),
             ),
-            Container(
-              decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ProfileItem(
-                    navbarCallback: navbarCallback,
-                    title: 'Menunggu Konfirmasi',
-                    trailingText: '2 Barang',
-                    icon: Icons.shopping_cart,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: mq.width * 0.055, vertical: mq.height * 0.02),
+                  color: Styles.darkPurple,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(90),
+                        child: Image(
+                          image: NetworkImage(linkImage + model.currentMember.gambar),
+                          height: 120,
+                          width: 120,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        model.currentMember.nama,
+                        style: GoogleFonts.openSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Styles.coolWhite,
+                        ),
+                      ),
+                      Text(
+                        model.currentMember.alamat,
+                        style: GoogleFonts.openSans(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          color: Styles.coolWhite,
+                        ),
+                      ),
+                    ],
                   ),
-                  ProfileItem(
-                    navbarCallback: navbarCallback,
-                    title: 'Sedang Dipinjam',
-                    trailingText: '4 Barang',
-                    icon: Icons.shopping_cart,
+                ),
+                Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      ProfileItem(
+                        navbarCallback: navbarCallback,
+                        title: 'Menunggu Konfirmasi',
+                        trailingText: '2 Barang',
+                        icon: Icons.shopping_cart,
+                      ),
+                      ProfileItem(
+                        navbarCallback: navbarCallback,
+                        title: 'Sedang Dipinjam',
+                        trailingText: '4 Barang',
+                        icon: Icons.shopping_cart,
+                      ),
+                      ProfileItem(
+                        navbarCallback: navbarCallback,
+                        title: 'Semua Barang',
+                        trailingText: '6 Barang',
+                        icon: Icons.shopping_cart,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'PENGATURAN APLIKASI',
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.openSans(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54),
+                        ),
+                      ),
+                      ProfileItem(
+                        navbarCallback: navbarCallback,
+                        title: 'Pengaturan',
+                      ),
+                      ProfileItem(
+                        navbarCallback: navbarCallback,
+                        title: 'Versi App',
+                        trailingText: '1.0.1',
+                        traillingIcon: false,
+                      ),
+                      ProfileItem(
+                        navbarCallback: () {
+                          Provider.of<AuthProvider>(context, listen: false).logout(context);
+                        },
+                        moveToRiwayatScreen: false,
+                        title: 'Keluar',
+                        traillingIcon: false,
+                      ),
+                      SizedBox(height: 50)
+                    ],
                   ),
-                  ProfileItem(
-                    navbarCallback: navbarCallback,
-                    title: 'Semua Barang',
-                    trailingText: '6 Barang',
-                    icon: Icons.shopping_cart,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'PENGATURAN APLIKASI',
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.openSans(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.black54),
-                    ),
-                  ),
-                  ProfileItem(
-                    navbarCallback: navbarCallback,
-                    title: 'Pengaturan',
-                  ),
-                  ProfileItem(
-                    navbarCallback: navbarCallback,
-                    title: 'Versi App',
-                    trailingText: '1.0.1',
-                    traillingIcon: false,
-                  ),
-                  ProfileItem(
-                    navbarCallback: () {
-                      Provider.of<AuthProvider>(context, listen: false).logout(context);
-                    },
-                    moveToRiwayatScreen: false,
-                    title: 'Keluar',
-                    traillingIcon: false,
-                  ),
-                  SizedBox(height: 50)
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
