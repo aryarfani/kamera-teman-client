@@ -20,6 +20,7 @@ class KeranjangApi {
   }
 
   Future addToCart(int idUser, int idBarang) async {
+    print(idUser.toString());
     Map<String, String> body = {
       'id_barang': idBarang.toString(),
     };

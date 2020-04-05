@@ -109,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
                     title: 'Keluar',
                     traillingIcon: false,
                   ),
-                  SizedBox(height: 10)
+                  SizedBox(height: 50)
                 ],
               ),
             )

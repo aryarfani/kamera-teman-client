@@ -16,8 +16,9 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
+    Provider.of<AuthProvider>(context, listen: false).getUserData();
     return Consumer3<AuthProvider, KeranjangProvider, BarangProvider>(
-      builder: (context, authmodel, keranjangModel, barangModel, child) {
+      builder: (context, authModel, keranjangModel, barangModel, child) {
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: Size(0, 0),
@@ -43,7 +44,7 @@ class MainScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text('Halo ${authmodel.namaCurrent}',
+                          Text('Halo ${authModel.namaCurrent}',
                               style: GoogleFonts.montserrat(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w400,
@@ -97,7 +98,7 @@ class MainScreen extends StatelessWidget {
                         ),
                       ),
                       height: mq.height,
-                      child: buildListView(barangModel, keranjangModel)),
+                      child: buildListView(barangModel, keranjangModel, authModel)),
                 ),
               ],
             ),
@@ -107,7 +108,7 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  Widget buildListView(BarangProvider barangModel, KeranjangProvider keranjangModel) {
+  Widget buildListView(BarangProvider barangModel, KeranjangProvider keranjangModel, AuthProvider authModel) {
     return barangModel.barangs == null
         ? Center(child: CupertinoActivityIndicator())
         : ListView.builder(
@@ -122,7 +123,7 @@ class MainScreen extends StatelessWidget {
                 stock: barang.stock,
                 endIcon: EndIcon.Cart,
                 tapCallback: () {
-                  keranjangModel.addToCart(idUser: 9, idBarang: barang.id);
+                  keranjangModel.addToCart(idUser: authModel.idCurrent, idBarang: barang.id);
                   showToast('Barang ditambahkan');
                 },
               );
