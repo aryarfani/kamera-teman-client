@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
+import 'package:kamera_teman_client/core/utils/router.dart';
 import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/api.dart';
@@ -40,6 +42,13 @@ class AuthProvider extends BaseProvider {
     }
 
     setState(ViewState.Idle);
+  }
+
+  Future logout(BuildContext context) async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    if (await storage.clear()) {
+      Navigator.of(context).pushReplacementNamed(RouteName.login);
+    }
   }
 
   Future<bool> storeUserData(int id, String nama) async {

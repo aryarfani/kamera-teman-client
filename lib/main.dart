@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Kamera Teman',
           theme: ThemeData(primarySwatch: Colors.blue),
-          initialRoute: RouteName.login,
+          initialRoute: RouteName.splash,
           onGenerateRoute: Router.generateRoute,
         ),
       ),

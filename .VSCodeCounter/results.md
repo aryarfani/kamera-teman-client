@@ -1,29 +1,29 @@
 # Summary
 
-Date : 2020-04-01 12:48:12
+Date : 2020-04-03 21:44:34
 
 Directory d:\projects\Flutter\kamera_teman_client\lib
 
-Total : 29 files,  1811 codes, 23 comments, 197 blanks, all 2031 lines
+Total : 31 files,  1900 codes, 18 comments, 206 blanks, all 2124 lines
 
 [details](details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Dart | 29 | 1,811 | 23 | 197 | 2,031 |
+| Dart | 31 | 1,900 | 18 | 206 | 2,124 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 29 | 1,811 | 23 | 197 | 2,031 |
-| core | 17 | 554 | 19 | 128 | 701 |
-| core\models | 2 | 38 | 0 | 6 | 44 |
-| core\providers | 6 | 236 | 5 | 56 | 297 |
-| core\services | 6 | 199 | 6 | 53 | 258 |
-| core\utils | 3 | 81 | 8 | 13 | 102 |
-| ui | 10 | 1,193 | 3 | 61 | 1,257 |
-| ui\screens | 7 | 1,038 | 3 | 46 | 1,087 |
-| ui\widgets | 3 | 155 | 0 | 15 | 170 |
+| . | 31 | 1,900 | 18 | 206 | 2,124 |
+| core | 18 | 631 | 15 | 138 | 784 |
+| core\models | 3 | 61 | 0 | 9 | 70 |
+| core\providers | 6 | 260 | 1 | 58 | 319 |
+| core\services | 6 | 228 | 6 | 58 | 292 |
+| core\utils | 3 | 82 | 8 | 13 | 103 |
+| ui | 11 | 1,201 | 2 | 60 | 1,263 |
+| ui\screens | 7 | 935 | 2 | 40 | 977 |
+| ui\widgets | 4 | 266 | 0 | 20 | 286 |
 
 [details](details.md)

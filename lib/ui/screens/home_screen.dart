@@ -13,12 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   static int _selectedIndex = 0;
-
-  List<Widget> screenList = [
-    MainScreen(),
-    RiwayatScreen(),
-    ProfileScreen(),
-  ];
+  GlobalKey bottomNavKey = new GlobalKey();
 
   void onItemTapped(int index) {
     setState(() {
@@ -30,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        key: bottomNavKey,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -52,7 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
       //* Untuk mencegah screen rebuild ketika diganti
       body: IndexedStack(
         index: _selectedIndex,
-        children: screenList,
+        children: [
+          MainScreen(),
+          RiwayatScreen(),
+          ProfileScreen((int id) {
+            final BottomNavigationBar navigationBar = bottomNavKey.currentWidget;
+            navigationBar.onTap(id);
+          }),
+        ],
       ),
     );
   }

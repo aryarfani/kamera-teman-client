@@ -53,7 +53,7 @@ class ApiService {
   static Future<List<BarangRiwayat>> jsonToBarangRiwayatList(http.Response res) async {
     var jsonObject = await json.decode(res.body);
     if (jsonObject == []) {
-      return null;
+      return [];
     }
     List<dynamic> dataJson = jsonObject;
     List<BarangRiwayat> barangs = [];
