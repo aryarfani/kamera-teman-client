@@ -31,9 +31,9 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    Provider.of<RiwayatProvider>(context, listen: false).getUncofirmedRiwayat();
-    Provider.of<RiwayatProvider>(context, listen: false).getBorrowedMemberRiwayat();
-    Provider.of<RiwayatProvider>(context, listen: false).getDoneAndCancelledMemberRiwayat();
+    // Provider.of<RiwayatProvider>(context, listen: false).getUncofirmedRiwayat();
+    // Provider.of<RiwayatProvider>(context, listen: false).getBorrowedMemberRiwayat();
+    // Provider.of<RiwayatProvider>(context, listen: false).getDoneAndCancelledMemberRiwayat();
     return Consumer<RiwayatProvider>(
       builder: (context, model, child) {
         return Scaffold(

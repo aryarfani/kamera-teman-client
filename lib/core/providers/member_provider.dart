@@ -14,8 +14,14 @@ class MemberProvider extends BaseProvider {
   Member _currentMember;
   Member get currentMember => _currentMember;
 
-  Future getMemberById(int idCurrent) async {
-    _currentMember = await memberApi.getMemberById(idCurrent);
+  Future getMemberById() async {
+    var idCurrent = await BaseProvider.getCurrentMemberId();
+    try {
+      _currentMember = await memberApi.getMemberById(idCurrent);
+    } on Exception catch (e) {
+      print(e);
+    }
+    notifyListeners();
   }
 
   Future addMember(

@@ -23,6 +23,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
+    Provider.of<KeranjangProvider>(context, listen: false).init();
     return Consumer<KeranjangProvider>(
       builder: (context, model, child) {
         var formatCurrency = NumberFormat.simpleCurrency(locale: 'IDR');

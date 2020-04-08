@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kamera_teman_client/core/providers/member_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -56,7 +54,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigateUser() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     var idCurrent = storage.get('idMember');
-    await Provider.of<MemberProvider>(context, listen: false).getMemberById(idCurrent);
     print(idCurrent.toString());
     if (idCurrent == null) {
       Navigator.pushReplacementNamed(context, RouteName.login);

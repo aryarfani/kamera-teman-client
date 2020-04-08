@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/member_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
+import 'package:kamera_teman_client/core/utils/router.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,6 +12,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
+    Provider.of<MemberProvider>(context, listen: false).getMemberById();
     return Consumer<MemberProvider>(
       builder: (context, model, child) {
         return Scaffold(
@@ -35,12 +37,14 @@ class ProfileScreen extends StatelessWidget {
                     children: <Widget>[
                       ClipRRect(
                         borderRadius: BorderRadius.circular(90),
-                        child: Image(
-                          image: NetworkImage(linkImage + model.currentMember.gambar),
-                          height: 120,
-                          width: 120,
-                          fit: BoxFit.cover,
-                        ),
+                        child: model.currentMember.gambar == null
+                            ? Center(child: CircularProgressIndicator())
+                            : Image(
+                                image: NetworkImage(linkImage + model.currentMember.gambar),
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       SizedBox(height: 10),
                       Text(
@@ -105,6 +109,14 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       ProfileItem(
                         navbarCallback: () {
+                          Navigator.of(context).pushNamed(RouteName.lokasi);
+                        },
+                        title: 'Lokasi Kios',
+                        traillingIcon: true,
+                        moveToRiwayatScreen: false,
+                      ),
+                      ProfileItem(
+                        navbarCallback: () {
                           Provider.of<AuthProvider>(context, listen: false).logout(context);
                         },
                         moveToRiwayatScreen: false,
@@ -125,13 +137,14 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class ProfileItem extends StatelessWidget {
-  const ProfileItem(
-      {this.navbarCallback,
-      @required this.title,
-      this.trailingText,
-      this.icon,
-      this.traillingIcon = true,
-      this.moveToRiwayatScreen = true});
+  const ProfileItem({
+    this.navbarCallback,
+    @required this.title,
+    this.trailingText,
+    this.icon,
+    this.traillingIcon = true,
+    this.moveToRiwayatScreen = true,
+  });
 
   final Function navbarCallback;
   final String title;

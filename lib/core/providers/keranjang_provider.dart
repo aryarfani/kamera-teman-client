@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kamera_teman_client/core/models/barang.dart';
-import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/keranjang_api.dart';
 import 'package:kamera_teman_client/core/services/riwayat_api.dart';
@@ -12,13 +11,8 @@ class KeranjangProvider extends BaseProvider {
   KeranjangApi keranjangApi = locator<KeranjangApi>();
   RiwayatApi riwayatApi = locator<RiwayatApi>();
 
-  KeranjangProvider() {
-    init();
-  }
-
   init() async {
     int idCurrent = await BaseProvider.getCurrentMemberId();
-    print('cek locator ${locator<AuthProvider>().idCurrent}');
     getJumlahBarang(idUser: idCurrent);
     getBarangsFromKeranjang(idUser: idCurrent);
     getTotalHarga(idUser: idCurrent);

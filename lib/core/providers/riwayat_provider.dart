@@ -10,6 +10,12 @@ class RiwayatProvider extends BaseProvider {
   List<BarangRiwayat> borrowedRiwayat;
   List<BarangRiwayat> doneAndCancelledRiwayat;
 
+  init() {
+    getUncofirmedRiwayat();
+    getBorrowedMemberRiwayat();
+    getDoneAndCancelledMemberRiwayat();
+  }
+
   void getUncofirmedRiwayat() async {
     int idCurrent = await BaseProvider.getCurrentMemberId();
     print('getUncofirmedRiwayat doin');
