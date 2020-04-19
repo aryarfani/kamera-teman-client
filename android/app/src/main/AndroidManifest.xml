@@ -11,7 +11,7 @@
     
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="kamera_teman_client"
+        android:label="Kamera Teman Client"
         android:icon="@mipmap/ic_launcher">
         <!-- google maps api -->
         <meta-data 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/barang_provider.dart';
+import 'package:kamera_teman_client/core/providers/chat_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
 import 'package:kamera_teman_client/core/providers/maps_provider.dart';
 import 'package:kamera_teman_client/core/providers/member_provider.dart';
@@ -41,10 +42,11 @@ class MyApp extends StatelessWidget {
 }
 
 List<SingleChildWidget> providers = [
-  ChangeNotifierProvider<BarangProvider>(create: (context) => locator<BarangProvider>()),
-  ChangeNotifierProvider<AuthProvider>(create: (context) => locator<AuthProvider>()),
-  ChangeNotifierProvider<KeranjangProvider>(create: (context) => locator<KeranjangProvider>()),
-  ChangeNotifierProvider<RiwayatProvider>(create: (context) => locator<RiwayatProvider>()),
+  ChangeNotifierProvider<BarangProvider>(create: (context) => BarangProvider()),
+  ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider()),
+  ChangeNotifierProvider<KeranjangProvider>(create: (context) => KeranjangProvider()),
+  ChangeNotifierProvider<RiwayatProvider>(create: (context) => RiwayatProvider()),
   ChangeNotifierProvider<MemberProvider>(create: (context) => MemberProvider()),
   ChangeNotifierProvider<MapsProvider>(create: (context) => MapsProvider()),
+  ChangeNotifierProvider<ChatProvider>(create: (context) => ChatProvider()),
 ];

@@ -39,7 +39,12 @@ class ApiService {
   }
 
   static Future<List<Barang>> jsonToBarangList(http.Response res) async {
-    var jsonObject = await json.decode(res.body);
+    var jsonObject;
+    try {
+      jsonObject = await json.decode(res.body);
+    } on Exception catch (e) {
+      print(e);
+    }
     if (jsonObject == []) {
       return null;
     }
@@ -65,5 +70,26 @@ class ApiService {
 
     for (var data in dataJson) barangs.add(BarangRiwayat.fromJson(data));
     return barangs;
+  }
+
+  // Function to send notif to admin
+  static Future sendNotif(String text) async {
+    Map<String, String> headers = {
+      "Authorization":
+          "key=AAAAwZJsvEg:APA91bHPeMKaQ0mhXIChaEbV36WnnG7qmc12NJLgWkBBbVd-2LsmUojjlg3KTH1dCcLKLBYKjc1B1U2Ytv5oi-VZRNt4n-MCm5DjbhSL8DWVaI4ene9F0ZDJR5Tm92hpfXOk6j0auNNF",
+      "Content-Type": "application/json"
+    };
+    final body = jsonEncode({
+      "to": "/topics/admin",
+      "notification": {
+        "body": "Kamera Teman",
+        "title": text,
+      },
+      "data": {
+        "click_action": "FLUTTER_NOTIFICATION_CLICK",
+      }
+    });
+    var res = await http.post('https://fcm.googleapis.com/fcm/send', headers: headers, body: body);
+    return res;
   }
 }

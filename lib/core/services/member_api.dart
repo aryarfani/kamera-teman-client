@@ -47,6 +47,8 @@ class MemberApi extends ApiService {
     var response = await request.send();
 
     if (response.statusCode == 200) {
+      // if user succes created send notif
+      await ApiService.sendNotif('Pemberitahuan member baru');
       return true;
     } else {
       return false;
