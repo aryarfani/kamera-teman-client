@@ -116,10 +116,6 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             ProfileItem(
                               navbarCallback: navbarCallback,
-                              title: 'Pengaturan',
-                            ),
-                            ProfileItem(
-                              navbarCallback: navbarCallback,
                               title: 'Versi App',
                               trailingText: '1.0.1',
                               traillingIcon: false,

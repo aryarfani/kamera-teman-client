@@ -3,19 +3,26 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kamera_teman_client/core/models/message.dart';
 import 'package:kamera_teman_client/core/providers/chat_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
-import 'package:kamera_teman_client/ui/widgets/text_field_widget.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   final TextEditingController cMessage = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  //Todo add onresume get message
+
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
 
+    //* This function is to make sure that getMessage will be called everytime the screen changes
+    Provider.of<ChatProvider>(context, listen: false).getId();
+
     return Consumer<ChatProvider>(
       builder: (context, chatProv, _) {
+        print('ChatScreen build');
         if (chatProv.messages == null) {
-          chatProv.getMessages();
+          // chatProv.getMessages();
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
         return Scaffold(
@@ -24,11 +31,9 @@ class ChatScreen extends StatelessWidget {
             backgroundColor: Styles.darkPurple,
           ),
           body: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _buildChatList(chatProv),
-              _buildChatSend(mq, chatProv),
+              _buildChatList(chatProv, mq),
+              _buildChatSend(mq, chatProv, context),
             ],
           ),
         );
@@ -36,46 +41,53 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildChatSend(Size mq, ChatProvider chatProv) {
+  Widget _buildChatSend(Size mq, ChatProvider chatProv, context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      child: Row(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(bottom: 10),
-            width: mq.width - 60,
-            child: TextFieldWidget(
-              cText: cMessage,
-              hintText: 'Ketik pesan disini',
-            ),
-          ),
-          InkWell(
-            onTap: () async {
-              var res = await chatProv.addMessage(content: cMessage.text.toString());
-              if (res == true) {
-                cMessage.text = "";
-                print("cMessage deleted");
-              }
-            },
-            child: Container(
-              padding: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Styles.darkPurple,
-              ),
-              child: Icon(
-                Icons.send,
-                size: 20,
-                color: Colors.white,
+      child: Form(
+        key: _formKey,
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(bottom: 10),
+              width: mq.width - 60,
+              child: TextField(
+                maxLines: null,
+                controller: cMessage,
               ),
             ),
-          )
-        ],
+            InkWell(
+              onTap: () async {
+                String text = cMessage.text;
+                if (text.trim().isNotEmpty) {
+                  cMessage.text = "";
+                  var res = await chatProv.addMessage(content: text.toString());
+
+                  if (res != true) {
+                    showToast("Please cek your internet connection");
+                  }
+                }
+              },
+              child: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Styles.darkPurple,
+                ),
+                child: Icon(
+                  Icons.send,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildChatList(ChatProvider chatProv) {
+  Widget _buildChatList(ChatProvider chatProv, mq) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
@@ -86,18 +98,19 @@ class ChatScreen extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           itemBuilder: (context, index) {
             Message message = chatProv.messages[index];
-            return _buildChat(message);
+            return _buildChat(message, mq);
           },
         ),
       ),
     );
   }
 
-  Row _buildChat(Message message) {
+  Row _buildChat(Message message, mq) {
     return Row(
       mainAxisAlignment: message.isAdmin == 0 ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
         Container(
+          constraints: BoxConstraints(maxWidth: mq.width * 0.7),
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
               color: message.isAdmin == 0 ? Colors.white : Styles.darkPurple,
@@ -108,6 +121,7 @@ class ChatScreen extends StatelessWidget {
                   topRight: Radius.circular(10))),
           child: Text(
             message.content,
+            softWrap: true,
             style: GoogleFonts.openSans(
               color: message.isAdmin == 0 ? Colors.black : Colors.white,
               fontSize: 14,
@@ -115,6 +129,13 @@ class ChatScreen extends StatelessWidget {
           ),
         ),
         SizedBox(height: 50),
+        message.isAdmin == 0
+            ? Icon(
+                Icons.check,
+                size: 20,
+                color: message.id == null ? Colors.grey[400] : Styles.darkPurple,
+              )
+            : Container()
       ],
     );
   }

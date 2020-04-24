@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
+import 'package:kamera_teman_client/core/providers/chat_provider.dart';
+import 'package:kamera_teman_client/core/services/push_notification_service.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
 import 'package:kamera_teman_client/locator.dart';
@@ -72,6 +74,10 @@ class LoginScreen extends StatelessWidget {
                             var res = await model.login(email: cEmail.text, password: cPassword.text);
                             if (res == 200) {
                               showToast('Login berhasil');
+                              //* init fcm service and pass chatProv as argument
+                              final PushNotificationService _pushNotificationService =
+                                  PushNotificationService(Provider.of<ChatProvider>(context, listen: false));
+                              _pushNotificationService.init();
                               Navigator.pushReplacementNamed(context, RouteName.home);
                             }
                           },

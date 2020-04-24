@@ -35,9 +35,7 @@ class MapsProvider extends ChangeNotifier {
   //Function to initialize camera
   Future initCamera() async {
     //Get current locations
-    addMarker();
     await initLocation();
-
     //Set current location to camera
     _cameraPosition = CameraPosition(zoom: cameraZoom, target: sourceLocation);
     notifyListeners();
@@ -48,7 +46,7 @@ class MapsProvider extends ChangeNotifier {
     var locData = await location.getLocation();
     _sourceLocation = LatLng(locData.latitude, locData.longitude);
     print('${locData.latitude}, ${locData.longitude}');
-    notifyListeners();
+    addMarker();
   }
 
   void addMarker() {
@@ -57,7 +55,5 @@ class MapsProvider extends ChangeNotifier {
         position: LatLng(-7.829333, 111.996128),
         infoWindow: InfoWindow(title: 'Kios Kamera Teman'),
         icon: BitmapDescriptor.defaultMarker));
-
-    notifyListeners();
   }
 }

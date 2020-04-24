@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
-import 'package:kamera_teman_client/core/providers/riwayat_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/ui/screens/main_screen.dart';
 import 'package:kamera_teman_client/ui/screens/profile_screen.dart';
 import 'package:kamera_teman_client/ui/screens/riwayat_screen.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final int insertedIndex;
@@ -26,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<KeranjangProvider>(context, listen: false).init();
-    Provider.of<RiwayatProvider>(context, listen: false).init();
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         key: bottomNavKey,

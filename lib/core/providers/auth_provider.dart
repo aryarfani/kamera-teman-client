@@ -61,8 +61,6 @@ class AuthProvider extends BaseProvider {
     SharedPreferences storage = await SharedPreferences.getInstance();
     _idCurrent = storage.get('idMember');
     _namaCurrent = storage.getString('namaMember');
-    print(_idCurrent);
-    print(_namaCurrent);
     notifyListeners();
   }
 }

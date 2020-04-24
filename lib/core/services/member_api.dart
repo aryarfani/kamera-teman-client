@@ -54,4 +54,12 @@ class MemberApi extends ApiService {
       return false;
     }
   }
+
+  Future saveToken(int id, String token) async {
+    var res = await http.post(linkApi + 'saveTokenMember/$id', body: {'token': token});
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

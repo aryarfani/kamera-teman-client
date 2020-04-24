@@ -7,34 +7,39 @@ import 'package:provider/provider.dart';
 class LocationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final mapsProv = Provider.of<MapsProvider>(context);
-    if (mapsProv.cameraPosition == null) {
-      mapsProv.initCamera();
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Lokasi Kamera Teman'),
-        backgroundColor: Styles.darkPurple,
-      ),
-      body: Stack(
-        children: <Widget>[
-          mapsProv.cameraPosition != null
-              ? Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: GoogleMap(
-                    tiltGesturesEnabled: false,
-                    markers: mapsProv.markers,
-                    mapType: MapType.normal,
-                    initialCameraPosition: mapsProv.cameraPosition,
-                    mapToolbarEnabled: true,
-                  ),
-                )
-              : Center(
-                  child: CircularProgressIndicator(),
-                ),
-        ],
-      ),
+    // final mapsProv = Provider.of<MapsProvider>(context);
+
+    return Consumer<MapsProvider>(
+      builder: (context, mapsProv, _) {
+        if (mapsProv.cameraPosition == null) {
+          mapsProv.initCamera();
+        }
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Lokasi Kamera Teman'),
+            backgroundColor: Styles.darkPurple,
+          ),
+          body: Stack(
+            children: <Widget>[
+              mapsProv.cameraPosition != null
+                  ? Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: GoogleMap(
+                        tiltGesturesEnabled: false,
+                        markers: mapsProv.markers,
+                        mapType: MapType.normal,
+                        initialCameraPosition: mapsProv.cameraPosition,
+                        mapToolbarEnabled: true,
+                      ),
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

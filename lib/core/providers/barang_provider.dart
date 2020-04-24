@@ -14,11 +14,18 @@ class BarangProvider extends BaseProvider {
     getBarangs();
   }
 
+  //* This variable is to help searching
+  //* _barangs is mutable and will show to screen
+  //* _barangPure is immutable the backup of _barangs
+  List<Barang> _barangPure;
+  List<Barang> get barangCadangan => _barangPure;
+
   List<Barang> _barangs;
   List<Barang> get barangs => _barangs;
 
   void getBarangs() async {
     _barangs = await barangApi.getBarangs();
+    _barangPure = _barangs;
     notifyListeners();
   }
 
@@ -49,6 +56,17 @@ class BarangProvider extends BaseProvider {
       print(e);
     }
 
+    notifyListeners();
+  }
+
+  Future findBarang({@required String keyword}) async {
+    if (keyword.trim().isNotEmpty) {
+      _barangs = _barangPure.where((barang) => barang.nama.toLowerCase().contains(keyword.toLowerCase())).toList();
+    }
+    //* if empty will return prior list
+    if (keyword.trim().isEmpty) {
+      _barangs = _barangPure;
+    }
     notifyListeners();
   }
 }

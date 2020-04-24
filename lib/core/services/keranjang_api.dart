@@ -5,14 +5,6 @@ import 'package:kamera_teman_client/core/services/api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 
 class KeranjangApi {
-  Future getJumlahBarangFromKeranjang(int id) async {
-    print('getJumlah working $id');
-    var res = await http.get(linkApi + 'jumlahBarangKeranjang/$id');
-    if (res.statusCode == 200) {
-      return json.decode(res.body);
-    }
-  }
-
   Future getBarangsFromKeranjang(int id) async {
     var res = await http.get(linkApi + 'keranjang/$id');
     print('getBarangsFromKeranjang done');

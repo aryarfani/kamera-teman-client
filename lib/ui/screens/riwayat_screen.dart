@@ -5,6 +5,7 @@ import 'package:kamera_teman_client/core/models/barang_riwayat.dart';
 import 'package:kamera_teman_client/core/providers/riwayat_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/ui/widgets/barang_item.dart';
+import 'package:kamera_teman_client/ui/widgets/nobarang_widget.dart';
 import 'package:provider/provider.dart';
 
 class RiwayatScreen extends StatefulWidget {
@@ -31,9 +32,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    // Provider.of<RiwayatProvider>(context, listen: false).getUncofirmedRiwayat();
-    // Provider.of<RiwayatProvider>(context, listen: false).getBorrowedMemberRiwayat();
-    // Provider.of<RiwayatProvider>(context, listen: false).getDoneAndCancelledMemberRiwayat();
     return Consumer<RiwayatProvider>(
       builder: (context, model, child) {
         return Scaffold(
@@ -98,8 +96,12 @@ class UncofirmedBarang extends StatelessWidget {
   final RiwayatProvider model;
   @override
   Widget build(BuildContext context) {
-    return model.unconfirmedRiwayat == null
-        ? Center(child: CupertinoActivityIndicator())
+    if (model.unconfirmedRiwayat == null) {
+      model.getUncofirmedRiwayat();
+      return Center(child: CupertinoActivityIndicator());
+    }
+    return model.unconfirmedRiwayat.isEmpty
+        ? NoBarangBg()
         : ListView.builder(
             itemCount: model.unconfirmedRiwayat.length,
             itemBuilder: (context, index) {
@@ -107,7 +109,7 @@ class UncofirmedBarang extends StatelessWidget {
               return BarangItem(
                 nama: barang.nama,
                 harga: '${barang.durasi * barang.harga}',
-                image: NetworkImage(linkImage + barang.gambar),
+                image: linkImage + barang.gambar,
                 endIcon: EndIcon.Confirming,
               );
             },
@@ -120,8 +122,12 @@ class BorrowedBarang extends StatelessWidget {
   final RiwayatProvider model;
   @override
   Widget build(BuildContext context) {
-    return model.borrowedRiwayat == null
-        ? Center(child: CupertinoActivityIndicator())
+    if (model.borrowedRiwayat == null) {
+      model.getBorrowedMemberRiwayat();
+      return Center(child: CupertinoActivityIndicator());
+    }
+    return model.borrowedRiwayat.isEmpty
+        ? NoBarangBg()
         : ListView.builder(
             itemCount: model.borrowedRiwayat.length,
             itemBuilder: (context, index) {
@@ -129,7 +135,7 @@ class BorrowedBarang extends StatelessWidget {
               return BarangItem(
                 nama: barang.nama,
                 subtitle: barang.tanggalTempo,
-                image: NetworkImage(linkImage + barang.gambar),
+                image: linkImage + barang.gambar,
                 endIcon: EndIcon.Borrowing,
               );
             },
@@ -142,8 +148,12 @@ class DoneAndCancelledBarang extends StatelessWidget {
   final RiwayatProvider model;
   @override
   Widget build(BuildContext context) {
-    return model.doneAndCancelledRiwayat == null
-        ? Center(child: CupertinoActivityIndicator())
+    if (model.doneAndCancelledRiwayat == null) {
+      model.getDoneAndCancelledMemberRiwayat();
+      return Center(child: CupertinoActivityIndicator());
+    }
+    return model.doneAndCancelledRiwayat.isEmpty
+        ? NoBarangBg()
         : ListView.builder(
             itemCount: model.doneAndCancelledRiwayat.length,
             itemBuilder: (context, index) {
@@ -151,7 +161,7 @@ class DoneAndCancelledBarang extends StatelessWidget {
               return BarangItem(
                 nama: barang.nama,
                 subtitle: barang.tanggalTempo,
-                image: NetworkImage(linkImage + barang.gambar),
+                image: linkImage + barang.gambar,
                 endIcon: EndIcon.Done,
               );
             },

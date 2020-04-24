@@ -13,24 +13,14 @@ class KeranjangProvider extends BaseProvider {
 
   init() async {
     int idCurrent = await BaseProvider.getCurrentMemberId();
-    getJumlahBarang(idUser: idCurrent);
     getBarangsFromKeranjang(idUser: idCurrent);
     getTotalHarga(idUser: idCurrent);
     print('keranjangProvider created');
   }
 
   List<Barang> barangKeranjang;
-  int _jumlahKeranjang = 0;
-  int get jumlahKeranjang => _jumlahKeranjang;
   int _totalHarga = 0;
   int get totalHarga => _totalHarga;
-
-  Future getJumlahBarang({@required int idUser}) async {
-    print('getJumlahBarang provider');
-
-    _jumlahKeranjang = await keranjangApi.getJumlahBarangFromKeranjang(idUser);
-    notifyListeners();
-  }
 
   Future getTotalHarga({@required int idUser}) async {
     print('getTotalHarga');
@@ -51,7 +41,6 @@ class KeranjangProvider extends BaseProvider {
 
     var response = await keranjangApi.addToCart(idUser, idBarang);
     if (response) {
-      _jumlahKeranjang++;
       notifyListeners();
       init();
     }
@@ -64,7 +53,6 @@ class KeranjangProvider extends BaseProvider {
     var response = await keranjangApi.deleteFromCart(idUser, idBarang);
     if (response) {
       barangKeranjang.remove(barang);
-      _jumlahKeranjang--;
       notifyListeners();
       init();
     }
