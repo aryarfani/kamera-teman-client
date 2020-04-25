@@ -11,6 +11,9 @@ class ChatProvider extends ChangeNotifier {
   ChatApi chatApi = ChatApi();
   List<Message> messages;
 
+  //* this property is to reduce load when sending multiple message instantaneous
+  int queue = 0;
+
   int _id;
   int get id => _id;
 
@@ -20,12 +23,13 @@ class ChatProvider extends ChangeNotifier {
   }
 
   Future getMessages() async {
-    messages = await chatApi.getMessageById(id);
     print('get Messages');
+    messages = await chatApi.getMessageById(id);
     notifyListeners();
   }
 
   Future addMessage({@required String content}) async {
+    queue++;
     print('addMessage');
     // Add new message to screen
     Message message = Message(content: content, isAdmin: 0);
@@ -33,8 +37,16 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     // send it to server and verify it
-    var res = await chatApi.addMessage(id, content);
-    getMessages();
-    return res;
+    // if sucess will reduce the queue
+    await chatApi.addMessage(id, content).then((value) {
+      queue--;
+    });
+
+    // rebuild message list when all message sent
+    if (queue == 0) {
+      getMessages();
+    }
+
+    return true;
   }
 }
