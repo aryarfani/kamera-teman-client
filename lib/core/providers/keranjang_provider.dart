@@ -5,11 +5,10 @@ import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/keranjang_api.dart';
 import 'package:kamera_teman_client/core/services/riwayat_api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
-import 'package:kamera_teman_client/locator.dart';
 
 class KeranjangProvider extends BaseProvider {
-  KeranjangApi keranjangApi = locator<KeranjangApi>();
-  RiwayatApi riwayatApi = locator<RiwayatApi>();
+  KeranjangApi keranjangApi = KeranjangApi();
+  RiwayatApi riwayatApi = RiwayatApi();
 
   init() async {
     int idCurrent = await BaseProvider.getCurrentMemberId();

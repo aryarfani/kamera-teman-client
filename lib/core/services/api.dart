@@ -2,14 +2,13 @@ import 'dart:convert';
 
 import 'package:kamera_teman_client/core/models/barang.dart';
 import 'package:kamera_teman_client/core/models/barang_riwayat.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/services/image.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
 
 class ApiService {
-  ImageService imageService = locator<ImageService>();
+  ImageService imageService = ImageService();
 
   Future delete(String type, int id) async {
     print('delete is working');

@@ -6,7 +6,6 @@ import 'package:kamera_teman_client/core/providers/chat_provider.dart';
 import 'package:kamera_teman_client/core/services/push_notification_service.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/ui/widgets/app_header.dart';
 import 'package:kamera_teman_client/ui/widgets/text_field_widget.dart';
 import 'package:oktoast/oktoast.dart';
@@ -20,7 +19,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
     return ChangeNotifierProvider<AuthProvider>(
-      create: (context) => locator<AuthProvider>(),
+      create: (context) => AuthProvider(),
       child: Consumer<AuthProvider>(builder: (context, model, child) {
         return Scaffold(
             resizeToAvoidBottomInset: false,

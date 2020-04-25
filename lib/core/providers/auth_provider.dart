@@ -4,14 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends BaseProvider {
-  ApiService apiService = locator<ApiService>();
+  ApiService apiService = ApiService();
 
   String _message;
   String get message => _message;

@@ -32,6 +32,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    Provider.of<RiwayatProvider>(context, listen: false).init();
+
     return Consumer<RiwayatProvider>(
       builder: (context, model, child) {
         return Scaffold(
@@ -97,7 +99,6 @@ class UncofirmedBarang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (model.unconfirmedRiwayat == null) {
-      model.getUncofirmedRiwayat();
       return Center(child: CupertinoActivityIndicator());
     }
     return model.unconfirmedRiwayat.isEmpty
@@ -123,7 +124,6 @@ class BorrowedBarang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (model.borrowedRiwayat == null) {
-      model.getBorrowedMemberRiwayat();
       return Center(child: CupertinoActivityIndicator());
     }
     return model.borrowedRiwayat.isEmpty
@@ -149,7 +149,6 @@ class DoneAndCancelledBarang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (model.doneAndCancelledRiwayat == null) {
-      model.getDoneAndCancelledMemberRiwayat();
       return Center(child: CupertinoActivityIndicator());
     }
     return model.doneAndCancelledRiwayat.isEmpty

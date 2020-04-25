@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:kamera_teman_client/core/models/barang.dart';
 import 'package:kamera_teman_client/core/providers/auth_provider.dart';
 import 'package:kamera_teman_client/core/providers/keranjang_provider.dart';
+import 'package:kamera_teman_client/core/providers/riwayat_provider.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:kamera_teman_client/ui/widgets/barang_item.dart';
 import 'package:oktoast/oktoast.dart';

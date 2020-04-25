@@ -5,10 +5,9 @@ import 'package:kamera_teman_client/core/models/member.dart';
 import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/member_api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
-import 'package:kamera_teman_client/locator.dart';
 
 class MemberProvider extends BaseProvider {
-  MemberApi memberApi = locator<MemberApi>();
+  MemberApi memberApi = MemberApi();
 
   List<Member> members;
   Member _currentMember;

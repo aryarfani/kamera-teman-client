@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/services/api.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BaseProvider extends ChangeNotifier {
-  ApiService apiService = locator<ApiService>();
+  ApiService apiService = ApiService();
 
   ViewState _state = ViewState.Idle;
 

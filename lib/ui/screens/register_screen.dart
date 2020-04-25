@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:kamera_teman_client/core/providers/member_provider.dart';
 import 'package:kamera_teman_client/core/services/image.dart';
 import 'package:kamera_teman_client/core/utils/constant.dart';
@@ -20,7 +19,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   File _image;
-  ImageService imageService = locator<ImageService>();
+  ImageService imageService = ImageService();
 
   TextEditingController cNama = TextEditingController();
   TextEditingController cAlamat = TextEditingController();

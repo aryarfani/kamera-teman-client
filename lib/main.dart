@@ -8,13 +8,11 @@ import 'package:kamera_teman_client/core/providers/maps_provider.dart';
 import 'package:kamera_teman_client/core/providers/member_provider.dart';
 import 'package:kamera_teman_client/core/providers/riwayat_provider.dart';
 import 'package:kamera_teman_client/core/utils/router.dart';
-import 'package:kamera_teman_client/locator.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 void main() {
-  setupLocator();
   runApp(MyApp());
 }
 

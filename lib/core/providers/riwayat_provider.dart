@@ -1,10 +1,9 @@
 import 'package:kamera_teman_client/core/models/barang_riwayat.dart';
 import 'package:kamera_teman_client/core/providers/base_provider.dart';
 import 'package:kamera_teman_client/core/services/riwayat_api.dart';
-import 'package:kamera_teman_client/locator.dart';
 
 class RiwayatProvider extends BaseProvider {
-  RiwayatApi riwayatApi = locator<RiwayatApi>();
+  RiwayatApi riwayatApi = RiwayatApi();
 
   List<BarangRiwayat> unconfirmedRiwayat;
   List<BarangRiwayat> borrowedRiwayat;
