@@ -6,7 +6,7 @@ class RiwayatApi {
   // Function to check out all barang from keranjang to unconfirmed riwayat
   Future checkOutPesanan(int id, int durasi) async {
     print('checkOutPesanan working');
-    var res = await http.post(linkApi + 'checkOutPesanan/$id', body: {'durasi': durasi.toString()});
+    var res = await http.post(linkApi + 'keranjang/$id/checkout', body: {'durasi': durasi.toString()});
 
     if (res.statusCode == 200) {
       print('checkOutPesanan success');
@@ -27,25 +27,25 @@ class RiwayatApi {
   }
 
   Future getRiwayat(int id) async {
-    var res = await http.get(linkApi + 'getAllMemberRiwayat/$id');
+    var res = await http.get(linkApi + 'riwayat/$id');
     print('getRiwayat done');
     return ApiService.jsonToBarangRiwayatList(res);
   }
 
   Future getUncofirmedMemberRiwayat(int id) async {
-    var res = await http.get(linkApi + 'getUncofirmedMemberRiwayat/$id');
+    var res = await http.get(linkApi + 'riwayat/$id/uncofirmed');
     print('getUncofirmedMemberRiwayat done');
     return ApiService.jsonToBarangRiwayatList(res);
   }
 
   Future getBorrowedMemberRiwayat(int id) async {
-    var res = await http.get(linkApi + 'getBorrowedMemberRiwayat/$id');
+    var res = await http.get(linkApi + 'riwayat/$id/borrowed');
     print('getBorrowedMemberRiwayat done');
     return ApiService.jsonToBarangRiwayatList(res);
   }
 
   Future getDoneAndCancelledMemberRiwayat(int id) async {
-    var res = await http.get(linkApi + 'getDoneAndCancelledMemberRiwayat/$id');
+    var res = await http.get(linkApi + 'riwayat/$id/doneandcancelled');
     print('getDoneAndCancelledMemberRiwayat done');
     return ApiService.jsonToBarangRiwayatList(res);
   }

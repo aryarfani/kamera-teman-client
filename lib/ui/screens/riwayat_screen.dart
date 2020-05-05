@@ -32,6 +32,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    // make them refresh everytime screen changes
     Provider.of<RiwayatProvider>(context, listen: false).init();
 
     return Consumer<RiwayatProvider>(
@@ -110,7 +112,7 @@ class UncofirmedBarang extends StatelessWidget {
               return BarangItem(
                 nama: barang.nama,
                 harga: '${barang.durasi * barang.harga}',
-                image: linkImage + barang.gambar,
+                image: barang.gambar,
                 endIcon: EndIcon.Confirming,
               );
             },
@@ -135,7 +137,7 @@ class BorrowedBarang extends StatelessWidget {
               return BarangItem(
                 nama: barang.nama,
                 subtitle: barang.tanggalTempo,
-                image: linkImage + barang.gambar,
+                image: barang.gambar,
                 endIcon: EndIcon.Borrowing,
               );
             },
@@ -160,7 +162,7 @@ class DoneAndCancelledBarang extends StatelessWidget {
               return BarangItem(
                 nama: barang.nama,
                 subtitle: barang.tanggalTempo,
-                image: linkImage + barang.gambar,
+                image: barang.gambar,
                 endIcon: EndIcon.Done,
               );
             },

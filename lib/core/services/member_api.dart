@@ -56,7 +56,7 @@ class MemberApi extends ApiService {
   }
 
   Future saveToken(int id, String token) async {
-    var res = await http.post(linkApi + 'saveTokenMember/$id', body: {'token': token});
+    var res = await http.post(linkApi + 'member/$id/token', body: {'token': token});
     if (res.statusCode == 200) {
       return true;
     }

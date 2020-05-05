@@ -10,6 +10,10 @@ class KeranjangProvider extends BaseProvider {
   KeranjangApi keranjangApi = KeranjangApi();
   RiwayatApi riwayatApi = RiwayatApi();
 
+  KeranjangProvider() {
+    init();
+  }
+
   init() async {
     int idCurrent = await BaseProvider.getCurrentMemberId();
     getBarangsFromKeranjang(idUser: idCurrent);

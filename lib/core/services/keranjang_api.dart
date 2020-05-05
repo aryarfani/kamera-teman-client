@@ -17,7 +17,7 @@ class KeranjangApi {
       'id_barang': idBarang.toString(),
     };
 
-    final response = await http.post(linkApi + 'tambahBarangKeranjang/$idUser', body: body);
+    final response = await http.post(linkApi + 'keranjang/$idUser', body: body);
 
     if (response.statusCode == 200) {
       return true;
@@ -31,7 +31,7 @@ class KeranjangApi {
       'id_barang': idBarang.toString(),
     };
 
-    final response = await http.post(linkApi + 'hapusBarangKeranjang/$idUser', body: body);
+    final response = await http.post(linkApi + 'keranjang/$idUser/delete', body: body);
 
     if (response.statusCode == 200) {
       return true;
@@ -41,7 +41,7 @@ class KeranjangApi {
   }
 
   Future getTotalHarga(int idUser) async {
-    var res = await http.get(linkApi + 'jumlahHargaKeranjang/$idUser');
+    var res = await http.get(linkApi + 'keranjang/$idUser/harga');
     if (res.statusCode == 200) {
       return json.decode(res.body);
     }

@@ -124,25 +124,29 @@ class MainScreen extends StatelessWidget {
               fontWeight: FontWeight.w400,
               color: Styles.coolWhite,
             )),
-        InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, RouteName.keranjang);
-          },
-          child: Padding(
-            padding: EdgeInsets.only(top: 8),
-            child: Badge(
-              animationType: BadgeAnimationType.scale,
-              toAnimate: true,
-              badgeColor: Color(0xFF8078B6),
-              badgeContent: Text(
-                keranjangModel.barangKeranjang == null
-                    ? 0.toString()
-                    : keranjangModel.barangKeranjang.length.toString(),
-                style: GoogleFonts.openSans(color: Colors.white),
-              ),
-              child: Icon(
-                Icons.shopping_cart,
-                color: Styles.coolWhite,
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(30),
+            onTap: () {
+              Navigator.pushNamed(context, RouteName.keranjang);
+            },
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Badge(
+                animationType: BadgeAnimationType.scale,
+                toAnimate: true,
+                badgeColor: Color(0xFF8078B6),
+                badgeContent: Text(
+                  keranjangModel.barangKeranjang == null
+                      ? 0.toString()
+                      : keranjangModel.barangKeranjang.length.toString(),
+                  style: GoogleFonts.openSans(color: Colors.white),
+                ),
+                child: Icon(
+                  Icons.shopping_cart,
+                  color: Styles.coolWhite,
+                ),
               ),
             ),
           ),
@@ -162,7 +166,7 @@ class MainScreen extends StatelessWidget {
               return BarangItem(
                 nama: barang.nama,
                 harga: barang.harga.toString(),
-                image: linkImage + barang.gambar,
+                image: barang.gambar,
                 stock: barang.stock,
                 endIcon: EndIcon.Cart,
                 tapCallback: () {

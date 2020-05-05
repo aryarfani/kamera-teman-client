@@ -29,7 +29,7 @@ class ApiService {
   }
 
   Future login(String email, String password) async {
-    var url = Uri.parse(linkApi + 'loginMember');
+    var url = Uri.parse(linkApi + 'login/member');
     var res = await http.post(url, body: {
       'email': email,
       'password': password,
@@ -59,9 +59,9 @@ class ApiService {
     try {
       jsonObject = await json.decode(res.body);
     } on Exception catch (e) {
-      print(e);
+      print('jsonToBarangRiwayatList $e');
     }
-    if (jsonObject == []) {
+    if (res.statusCode != 200 || jsonObject == []) {
       return [];
     }
     List<dynamic> dataJson = jsonObject;

@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(90),
                               child: Image(
-                                image: NetworkImage(linkImage + model.currentMember.gambar),
+                                image: NetworkImage(model.currentMember.gambar),
                                 height: 120,
                                 width: 120,
                                 fit: BoxFit.cover,

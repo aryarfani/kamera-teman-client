@@ -21,13 +21,17 @@ class BarangItem extends StatelessWidget {
       case EndIcon.Nothing:
         return Container();
       case EndIcon.Cart:
-        return Container(
-          padding: EdgeInsets.all(15),
+        return Material(
+          color: Colors.transparent,
           child: InkWell(
+            borderRadius: BorderRadius.circular(30),
             onTap: tapCallback,
-            child: Icon(
-              Icons.shopping_cart,
-              color: Color(0xFF493C70),
+            child: Container(
+              padding: EdgeInsets.all(15),
+              child: Icon(
+                Icons.shopping_cart,
+                color: Color(0xFF493C70),
+              ),
             ),
           ),
         );
