@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum ViewState { Idle, Busy }
 enum EndIcon { Cart, Clear, Nothing, Confirming, Borrowing, Done }
 
-String url = 'http://kamera-api.000webhostapp.com';
+String url = 'https://api-kamera.000webhostapp.com';
 String linkApi = '$url/api/';
 
 class Styles {
